@@ -1,9 +1,8 @@
+require("dotenv").config();
 const express = require("express");
-const mysql = require("mysql2");
+
 const cors = require("cors");
 const routes = require("./routes/routes");
-
-// const routes = require("./routes/employee");
 
 const app = express();
 
@@ -19,32 +18,9 @@ app.use((req, res, next) => {
 });
 
 //employee route
-app.use("/api/posts", routes);
+app.use("/posts", routes);
 
-// //sign up route
-// app.use("/auth", authRoutes);
-
-const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "admin@123",
-  database: "my_database",
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
-
-connection.connect((err) => {
-  if (err) {
-    console.error("error connecting: " + err.stack);
-    return;
-  }
-  console.log("connected as id " + connection.threadId);
-});
-
-// connection.query("SELECT * FROM posts", (err, results) => {
-//   if (err) {
-//     console.error("Error executing query:", err);
-//   } else {
-//     console.log("Results:", results);
-//   }
-// });
-
-module.exports = connection.promise();

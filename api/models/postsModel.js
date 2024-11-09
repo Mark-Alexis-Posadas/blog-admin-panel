@@ -7,9 +7,9 @@ const getAllPosts = async () => {
   return rows;
 };
 
-const createPost = async () => {
+const createPost = async (title, content) => {
   const [result] = await db.execute(
-    "INSERT INTO posts (title,content) VALUES (?,?)",
+    "INSERT INTO posts (title, content) VALUES (?, ?)",
     [title, content]
   );
   return result;
