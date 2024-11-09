@@ -38,3 +38,13 @@ connection.connect((err) => {
   }
   console.log("connected as id " + connection.threadId);
 });
+
+// connection.query("SELECT * FROM posts", (err, results) => {
+//   if (err) {
+//     console.error("Error executing query:", err);
+//   } else {
+//     console.log("Results:", results);
+//   }
+// });
+
+module.exports = connection.promise();
