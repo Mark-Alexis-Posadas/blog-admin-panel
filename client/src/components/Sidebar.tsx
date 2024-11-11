@@ -15,20 +15,17 @@ export const Sidebar: FC = () => {
           <FontAwesomeIcon icon={faHome} />
           Dashboard
         </Link>
-
-        <ul className="flex flex-col gap-3">
-          <Link className="flex items-center gap-2" to="/posts">
-            <FontAwesomeIcon icon={faFile} /> Posts
-          </Link>
-          <Link className="flex items-center gap-2" to="/categories">
-            <FontAwesomeIcon icon={faFolder} />
-            Categories
-          </Link>
-          <Link className="flex items-center gap-2" to="/accounts">
-            <FontAwesomeIcon icon={faUser} />
-            Accounts
-          </Link>
-        </ul>
+        <Link className="flex items-center gap-2" to="/posts">
+          <FontAwesomeIcon icon={faFile} /> Posts
+        </Link>
+        <Link className="flex items-center gap-2" to="/categories">
+          <FontAwesomeIcon icon={faFolder} />
+          Categories
+        </Link>
+        <Link className="flex items-center gap-2" to="/accounts">
+          <FontAwesomeIcon icon={faUser} />
+          Accounts
+        </Link>
       </ul>
     </aside>
   );
