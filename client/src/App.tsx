@@ -1,19 +1,18 @@
 import { FC } from "react";
-import { Navbar } from "./components/Navbar";
-import { Home } from "./pages/Home";
+import { Sidebar } from "./components/Sidebar";
+import { Dashboard } from "./pages/Dashboard";
 import { Routes, Route } from "react-router-dom";
-import { Blog } from "./pages/Blog";
-import { About } from "./pages/About";
 
 const App: FC = () => {
   return (
     <div>
-      <Navbar />
+      <Sidebar />
 
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/posts" element={<Dashboard />} />
+        <Route path="/categories" element={<Dashboard />} />
+        <Route path="/accounts" element={<Dashboard />} />
       </Routes>
     </div>
   );
