@@ -8,15 +8,16 @@ import { Accounts } from "./pages/Accounts";
 
 const App: FC = () => {
   return (
-    <div>
+    <div className="flex">
       <Sidebar />
-
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/posts" element={<Posts />} />
-        <Route path="/categories" element={<Categories />} />
-        <Route path="/accounts" element={<Accounts />} />
-      </Routes>
+      <main className="w-full ml-[250px] p-5 min-h-screen">
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/posts" element={<Posts />} />
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/accounts" element={<Accounts />} />
+        </Routes>
+      </main>
     </div>
   );
 };
