@@ -7,10 +7,10 @@ const getAllPosts = async () => {
   return rows;
 };
 
-const createPost = async (title, content) => {
+const createPost = async (image, title, content) => {
   const [result] = await db.execute(
-    "INSERT INTO posts (title, content) VALUES (?, ?)",
-    [title, content]
+    "INSERT INTO posts (image,title, content) VALUES (?, ?)",
+    [image, title, content]
   );
   return result;
 };

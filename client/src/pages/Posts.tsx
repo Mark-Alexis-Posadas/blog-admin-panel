@@ -17,7 +17,7 @@ export const Posts: FC = () => {
         </button>
         <div className="relative flex items-center gap-2">
           <FontAwesomeIcon icon={faSearch} />
-          <input type="text" placeholder="Search" />
+          <input type="text" placeholder="Search" className="outline-none" />
         </div>
         <div className="flex items-center gap-2">
           <select>
