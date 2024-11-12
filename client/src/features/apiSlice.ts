@@ -16,11 +16,11 @@ const apiSlice = createApi({
       query: () => "/get-all-posts",
     }),
 
-    getSinglePosts: builder.query<Posts, string>({
+    getSinglePost: builder.query<Posts, number>({
       query: (id) => `/get-single-post/${id}`,
     }),
 
-    createNewPosts: builder.mutation<Posts, Partial<Posts>>({
+    createNewPost: builder.mutation<Posts, Partial<Posts>>({
       query: (newPosts) => ({
         url: "create-pos",
         method: "POST",
@@ -28,7 +28,7 @@ const apiSlice = createApi({
       }),
     }),
 
-    updatePosts: builder.mutation<
+    updatePost: builder.mutation<
       Posts,
       { id: string; product: Partial<Posts> }
     >({
@@ -39,7 +39,7 @@ const apiSlice = createApi({
       }),
     }),
 
-    deleteProduct: builder.mutation<void, string>({
+    deletePost: builder.mutation<void, string>({
       query: (id) => ({
         url: `/products/delete-product/${id}`,
         method: "DELETE",
@@ -50,8 +50,8 @@ const apiSlice = createApi({
 
 export const {
   useGetPostsQuery,
-  useCreateNewPostsMutation,
-  useGetSinglePostsQuery,
-  useUpdatePostsMutation,
+  useCreateNewPostMutation,
+  useGetSinglePostQuery,
+  useUpdatePostMutation,
 } = apiSlice;
 export default apiSlice;

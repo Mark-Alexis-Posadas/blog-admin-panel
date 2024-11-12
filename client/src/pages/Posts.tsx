@@ -5,19 +5,29 @@ import {
   faSearch,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import { v4 as uuidv4 } from "uuid";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FC, useState } from "react";
 import { AddNewPost } from "../components/AddNewPost";
-import { useGetPostsQuery } from "../features/apiSlice";
+import { useGetPostsQuery, useGetSinglePostQuery } from "../features/apiSlice";
 import { ViewPostModal } from "../components/ViewPostModal";
+import { columns } from "../data/PostsHeader";
 
 export const Posts: FC = () => {
   const [isTogglePosts, setIsTogglePosts] = useState<boolean>(false);
   const [isToggleViewPost, setIsToggleViewPost] = useState<boolean>(false);
-  const { data } = useGetPostsQuery();
+  const [viewPostId, setViewPostId] = useState<number | null>(null);
+  const { data: posts } = useGetPostsQuery();
 
-  const handleViewPost = () => {
+  const { data: post } = useGetSinglePostQuery(viewPostId || -1, {
+    skip: !viewPostId,
+  });
+
+  const handleViewPost = async (id: number) => {
+    setViewPostId(id);
     setIsToggleViewPost(true);
+    console.log(post);
   };
 
   return (
@@ -45,34 +55,15 @@ export const Posts: FC = () => {
       <table className="mt-10 w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" className="px-6 py-3">
-              image
-            </th>
-            <th scope="col" className="px-6 py-3">
-              title
-            </th>
-            <th scope="col" className="px-6 py-3">
-              category
-            </th>
-            <th scope="col" className="px-6 py-3">
-              likes
-            </th>
-            <th scope="col" className="px-6 py-3">
-              comment
-            </th>
-            <th scope="col" className="px-6 py-3">
-              view
-            </th>
-            <th scope="col" className="px-6 py-3">
-              delete
-            </th>
-            <th scope="col" className="px-6 py-3">
-              update
-            </th>
+            {columns.map((item) => (
+              <th key={uuidv4()} scope="col" className="px-6 py-3">
+                {item.label}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {data?.map((item) => (
+          {posts?.map((item) => (
             <tr
               key={item.id}
               className="border-b dark:border-gray-700 odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800"
@@ -91,7 +82,10 @@ export const Posts: FC = () => {
               <td className="px-6 py-4">likes</td>
               <td className="px-6 py-4">comments</td>
               <td className="px-6 py-4">
-                <button className="text-gray-600" onClick={handleViewPost}>
+                <button
+                  className="text-gray-600"
+                  onClick={() => handleViewPost(item.id)}
+                >
                   <FontAwesomeIcon icon={faEye} />
                 </button>
               </td>
@@ -111,7 +105,10 @@ export const Posts: FC = () => {
       </table>
       {isTogglePosts && <AddNewPost setIsTogglePosts={setIsTogglePosts} />}
       {isToggleViewPost && (
-        <ViewPostModal setIsToggleViewPost={setIsToggleViewPost} />
+        <ViewPostModal
+          viewPost={post}
+          setIsToggleViewPost={setIsToggleViewPost}
+        />
       )}
     </section>
   );
