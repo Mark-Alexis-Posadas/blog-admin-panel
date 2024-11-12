@@ -24,11 +24,14 @@ export const Posts: FC = () => {
     skip: !viewPostId,
   });
 
-  const handleViewPost = async (id: number) => {
+  const handleViewPost = (id: number) => {
     setViewPostId(id);
     setIsToggleViewPost(true);
     console.log(post);
   };
+
+  const handleToggleDeletePost = (id: number) => {};
+  const handleProceedDeletePost = () => {};
 
   return (
     <section>
@@ -90,7 +93,10 @@ export const Posts: FC = () => {
                 </button>
               </td>
               <td className="px-6 py-4">
-                <button className="text-red-600">
+                <button
+                  className="text-red-600"
+                  onClick={() => handleToggleDeletePost(item.id)}
+                >
                   <FontAwesomeIcon icon={faTrash} />
                 </button>
               </td>

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FC } from "react";
 
 interface Post {
+  image: string;
   title: string;
   content: string;
   category: string;
@@ -30,6 +31,7 @@ export const ViewPostModal: FC<Type> = ({ viewPost, setIsToggleViewPost }) => {
           </button>
         </div>
         <ul>
+          <img src={viewPost.image} alt="" />
           <li className="mb-3">
             <strong>Title:</strong> {viewPost.title}
           </li>
