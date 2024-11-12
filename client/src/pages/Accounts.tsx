@@ -3,21 +3,20 @@ import { FC } from "react";
 export const Accounts: FC = () => {
   return (
     <div>
-      {" "}
       <table className="mt-10 w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" className="px-6 py-3">
-              image
+              username
             </th>
             <th scope="col" className="px-6 py-3">
-              title
+              email
             </th>
             <th scope="col" className="px-6 py-3">
-              category
+              verification
             </th>
             <th scope="col" className="px-6 py-3">
-              likes
+              join date
             </th>
 
             <th scope="col" className="px-6 py-3">
@@ -27,7 +26,7 @@ export const Accounts: FC = () => {
               delete
             </th>
             <th scope="col" className="px-6 py-3">
-              update
+              modify
             </th>
           </tr>
         </thead>
