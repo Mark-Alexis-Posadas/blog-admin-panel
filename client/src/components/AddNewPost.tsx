@@ -16,7 +16,11 @@ const initialFormValues = {
 export const AddNewPost: FC<Types> = ({ setIsTogglePosts }) => {
   const [values, setValues] = useState(initialFormValues);
 
-  const handleFormChange = (e) => {
+  const handleFormChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { value, name } = e.target;
     setValues({ ...values, [name]: value });
   };

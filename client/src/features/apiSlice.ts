@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface Posts {
-  _id: string;
+  id: number;
   title: string;
   description: string;
   category: string;

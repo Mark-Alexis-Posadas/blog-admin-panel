@@ -9,16 +9,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FC, useState } from "react";
 import { AddNewPost } from "../components/AddNewPost";
 import { useGetPostsQuery } from "../features/apiSlice";
+import { ViewPostModal } from "../components/ViewPostModal";
 
 export const Posts: FC = () => {
   const [isTogglePosts, setIsTogglePosts] = useState<boolean>(false);
+  const [isToggleViewPost, setIsToggleViewPost] = useState<boolean>(false);
   const { data } = useGetPostsQuery();
-  console.log(data);
+
+  const handleViewPost = () => {
+    setIsToggleViewPost(true);
+  };
+
   return (
     <section>
       <div className="flex items-center justify-between shadow-custom-shadow rounded p-4 w-[700px] m-auto">
         <button
-          className="flex items-center gap-2"
+          className="text-white rounded p-2 bg-indigo-600 flex items-center gap-2"
           onClick={() => setIsTogglePosts(!isTogglePosts)}
         >
           <FontAwesomeIcon icon={faPlus} />
@@ -67,7 +73,10 @@ export const Posts: FC = () => {
         </thead>
         <tbody>
           {data?.map((item) => (
-            <tr className="border-b dark:border-gray-700 odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800">
+            <tr
+              key={item.id}
+              className="border-b dark:border-gray-700 odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800"
+            >
               <th
                 scope="row"
                 className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -82,7 +91,7 @@ export const Posts: FC = () => {
               <td className="px-6 py-4">likes</td>
               <td className="px-6 py-4">comments</td>
               <td className="px-6 py-4">
-                <button className="text-gray-600">
+                <button className="text-gray-600" onClick={handleViewPost}>
                   <FontAwesomeIcon icon={faEye} />
                 </button>
               </td>
@@ -101,6 +110,9 @@ export const Posts: FC = () => {
         </tbody>
       </table>
       {isTogglePosts && <AddNewPost setIsTogglePosts={setIsTogglePosts} />}
+      {isToggleViewPost && (
+        <ViewPostModal setIsToggleViewPost={setIsToggleViewPost} />
+      )}
     </section>
   );
 };
