@@ -1,12 +1,25 @@
 import { faCircleXmark, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FC } from "react";
+import { FC, useState } from "react";
+import { blogCategories } from "../data/catagories";
 
 interface Types {
   setIsTogglePosts: (close: boolean) => void;
 }
 
+const initialFormValues = {
+  title: "",
+  image: "",
+  content: "",
+  category: "",
+};
 export const AddNewPost: FC<Types> = ({ setIsTogglePosts }) => {
+  const [values, setValues] = useState(initialFormValues);
+
+  const handleFormChange = (e) => {
+    const { value, name } = e.target;
+    setValues({ ...values, [name]: value });
+  };
   return (
     <div className="flex items-center justify-center fixed w-full top-0 left-0 min-h-screen bg-[rgba(0,0,0,0.4)]">
       <form className="bg-white dark:bg-gray-700 p-5 md:p-10 w-[900px]">
@@ -14,15 +27,19 @@ export const AddNewPost: FC<Types> = ({ setIsTogglePosts }) => {
         <div className="mb-3">
           <label>Title</label>
           <input
+            onChange={handleFormChange}
+            value={values.title}
             name="title"
             type="text"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           />
         </div>
         <div className="mb-3">
-          <label>Picture</label>
+          <label>Image</label>
           <input
-            name="picture"
+            onChange={handleFormChange}
+            value={values.image}
+            name="image"
             type="text"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           />
@@ -31,6 +48,8 @@ export const AddNewPost: FC<Types> = ({ setIsTogglePosts }) => {
         <div className="mb-3">
           <label>Content</label>
           <textarea
+            onChange={handleFormChange}
+            value={values.content}
             name="content"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           ></textarea>
@@ -38,10 +57,17 @@ export const AddNewPost: FC<Types> = ({ setIsTogglePosts }) => {
         <div className="mb-3">
           <label>Category</label>
           <select
+            onChange={handleFormChange}
+            value={values.category}
             name="category"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           >
-            <option value="selectCategory">select category</option>
+            <option value="">Select a Category</option>
+            {blogCategories.map((category) => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
           </select>
         </div>
         <div className="flex items-center gap-3">
