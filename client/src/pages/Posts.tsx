@@ -1,12 +1,17 @@
 import { faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FC } from "react";
+import { FC, useState } from "react";
+import { AddNewPost } from "../components/AddNewPost";
 
 export const Posts: FC = () => {
+  const [isTogglePosts, setIsTogglePosts] = useState<boolean>(false);
   return (
     <section>
       <div className="flex items-center justify-between shadow-custom-shadow rounded p-4 w-[700px] m-auto">
-        <button className="flex items-center gap-2">
+        <button
+          className="flex items-center gap-2"
+          onClick={() => setIsTogglePosts(!isTogglePosts)}
+        >
           <FontAwesomeIcon icon={faPlus} />
           New post
         </button>
@@ -69,6 +74,7 @@ export const Posts: FC = () => {
           </tr>
         </tbody>
       </table>
+      {isTogglePosts && <AddNewPost setIsTogglePosts={setIsTogglePosts} />}
     </section>
   );
 };
