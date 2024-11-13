@@ -2,6 +2,7 @@ import { faCircleXmark, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FC, useState } from "react";
 import { blogCategories } from "../data/catagories";
+import { useCreateNewPostMutation } from "../features/apiSlice";
 
 interface Types {
   setIsTogglePosts: (close: boolean) => void;
@@ -15,7 +16,8 @@ const initialFormValues = {
 };
 export const AddNewPost: FC<Types> = ({ setIsTogglePosts }) => {
   const [values, setValues] = useState(initialFormValues);
-
+  const { title, image, content, category } = initialFormValues;
+  const [createNewPost] = useCreateNewPostMutation();
   const handleFormChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -24,9 +26,31 @@ export const AddNewPost: FC<Types> = ({ setIsTogglePosts }) => {
     const { value, name } = e.target;
     setValues({ ...values, [name]: value });
   };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const postsData = {
+      title,
+      image,
+      content,
+      category,
+    };
+
+    try {
+      setIsTogglePosts(false);
+      await createNewPost({ postsData });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center fixed w-full top-0 left-0 min-h-screen bg-[rgba(0,0,0,0.4)]">
-      <form className="bg-white dark:bg-gray-700 p-5 md:p-10 w-[900px]">
+      <form
+        className="bg-white dark:bg-gray-700 p-5 md:p-10 w-[900px]"
+        onSubmit={handleFormSubmit}
+      >
         <h1 className="font-bold text-xl mb-5">Add new post</h1>
         <div className="mb-3">
           <label>Title</label>
