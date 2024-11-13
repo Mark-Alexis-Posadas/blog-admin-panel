@@ -12,11 +12,11 @@ const initialFormValues = {
   title: "",
   image: "",
   content: "",
-  category: "",
+  categories: "",
 };
 export const AddNewPost: FC<Types> = ({ setIsTogglePosts }) => {
   const [values, setValues] = useState(initialFormValues);
-  const { title, image, content, category } = initialFormValues;
+  const { title, image, content, categories } = initialFormValues;
   const [createNewPost] = useCreateNewPostMutation();
   const handleFormChange = (
     e: React.ChangeEvent<
@@ -34,7 +34,7 @@ export const AddNewPost: FC<Types> = ({ setIsTogglePosts }) => {
       title,
       image,
       content,
-      category,
+      categories,
     };
 
     try {
@@ -83,17 +83,17 @@ export const AddNewPost: FC<Types> = ({ setIsTogglePosts }) => {
           ></textarea>
         </div>
         <div className="mb-3">
-          <label>Category</label>
+          <label>categories</label>
           <select
             onChange={handleFormChange}
-            value={values.category}
-            name="category"
+            value={values.categories}
+            name="categories"
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           >
-            <option value="">Select a Category</option>
-            {blogCategories.map((category) => (
-              <option key={category.id} value={category.name}>
-                {category.name}
+            <option value="">Select a categories</option>
+            {blogCategories.map((categories) => (
+              <option key={categories.id} value={categories.name}>
+                {categories.name}
               </option>
             ))}
           </select>

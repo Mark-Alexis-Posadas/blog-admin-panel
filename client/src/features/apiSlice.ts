@@ -22,7 +22,7 @@ const apiSlice = createApi({
 
     createNewPost: builder.mutation<Posts, Partial<Posts>>({
       query: (newPosts) => ({
-        url: "create-pos",
+        url: "create-post",
         method: "POST",
         body: newPosts,
       }),
