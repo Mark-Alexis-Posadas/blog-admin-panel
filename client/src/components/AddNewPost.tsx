@@ -30,18 +30,12 @@ export const AddNewPost: FC<Types> = ({ setIsTogglePosts }) => {
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const postsData = {
-      title,
-      image,
-      content,
-      categories,
-    };
-
     try {
       setIsTogglePosts(false);
-      await createNewPost({ postsData });
+      setValues(initialFormValues);
+      await createNewPost({ title, image, content, categories });
     } catch (error) {
-      console.log(error.message);
+      console.log((error as Error).message);
     }
   };
 

@@ -13,10 +13,12 @@ import { AddNewPost } from "../components/AddNewPost";
 import { useGetPostsQuery, useGetSinglePostQuery } from "../features/apiSlice";
 import { ViewPostModal } from "../components/ViewPostModal";
 import { columns } from "../data/PostsHeader";
+import { ConfirmationDelete } from "../components/ConfirmationDelete";
 
 export const Posts: FC = () => {
   const [isTogglePosts, setIsTogglePosts] = useState<boolean>(false);
   const [isToggleViewPost, setIsToggleViewPost] = useState<boolean>(false);
+  const [isToggleDelete, setIsToggleDelete] = useState<boolean>(false);
   const [viewPostId, setViewPostId] = useState<number | null>(null);
   const { data: posts } = useGetPostsQuery();
 
@@ -24,15 +26,16 @@ export const Posts: FC = () => {
     skip: !viewPostId,
   });
 
-  console.log(posts);
-
   const handleViewPost = (id: number) => {
     setViewPostId(id);
     setIsToggleViewPost(true);
     console.log(post);
   };
 
-  const handleToggleDeletePost = (id: number) => {};
+  const handleToggleDeletePost = (id: number) => {
+    setViewPostId(id);
+    setIsToggleDelete(true);
+  };
   const handleProceedDeletePost = () => {};
 
   return (
@@ -84,6 +87,7 @@ export const Posts: FC = () => {
                   />
                 </th>
                 <td className="px-6 py-4">{item.title}</td>
+                <td className="px-6 py-4">{item.content}</td>
                 <td className="px-6 py-4">{item.categories}</td>
                 <td className="px-6 py-4">likes</td>
                 <td className="px-6 py-4">comments</td>
@@ -104,7 +108,10 @@ export const Posts: FC = () => {
                   </button>
                 </td>
                 <td className="px-6 py-4">
-                  <button className="text-blue-600">
+                  <button
+                    className="text-blue-600"
+                    onClick={() => handleToggleDeletePost(item.id)}
+                  >
                     <FontAwesomeIcon icon={faPencil} />
                   </button>
                 </td>
@@ -121,6 +128,8 @@ export const Posts: FC = () => {
           setIsToggleViewPost={setIsToggleViewPost}
         />
       )}
+
+      {isToggleDelete && <ConfirmationDelete />}
     </section>
   );
 };

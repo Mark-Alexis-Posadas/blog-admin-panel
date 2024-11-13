@@ -13,7 +13,7 @@ const getAllPosts = async (req, res) => {
 const createPost = async (req, res) => {
   const { image, title, content, categories } = req.body;
 
-  if (!title || !content) {
+  if (!image || !title || !content || !categories) {
     return res.status(400).json({ message: "Title and content are required" });
   }
 
