@@ -5,7 +5,6 @@ import { Routes, Route } from "react-router-dom";
 import { Posts } from "./pages/Posts";
 import { Categories } from "./pages/Categories";
 import { Accounts } from "./pages/Accounts";
-import { Post } from "./pages/Post";
 
 const App: FC = () => {
   return (
@@ -15,7 +14,6 @@ const App: FC = () => {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/posts" element={<Posts />} />
-          <Route path="/post/:id" element={<Post />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/accounts" element={<Accounts />} />
         </Routes>

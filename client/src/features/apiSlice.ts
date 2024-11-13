@@ -33,7 +33,7 @@ const apiSlice = createApi({
       { id: string; product: Partial<Posts> }
     >({
       query: ({ id, product }) => ({
-        url: `/products/update-product/${id}`,
+        url: `/update-product/${id}`,
         method: "PUT",
         body: product,
       }),
@@ -41,7 +41,7 @@ const apiSlice = createApi({
 
     deletePost: builder.mutation<void, string>({
       query: (id) => ({
-        url: `/products/delete-product/${id}`,
+        url: `/delete-post/${id}`,
         method: "DELETE",
       }),
     }),
@@ -52,6 +52,7 @@ export const {
   useGetPostsQuery,
   useCreateNewPostMutation,
   useGetSinglePostQuery,
+  useDeletePostMutation,
   useUpdatePostMutation,
 } = apiSlice;
 export default apiSlice;

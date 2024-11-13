@@ -10,7 +10,11 @@ import { v4 as uuidv4 } from "uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FC, useState } from "react";
 import { AddNewPost } from "../components/AddNewPost";
-import { useGetPostsQuery, useGetSinglePostQuery } from "../features/apiSlice";
+import {
+  useDeletePostMutation,
+  useGetPostsQuery,
+  useGetSinglePostQuery,
+} from "../features/apiSlice";
 import { ViewPostModal } from "../components/ViewPostModal";
 import { columns } from "../data/PostsHeader";
 import { ConfirmationDelete } from "../components/ConfirmationDelete";
@@ -20,7 +24,8 @@ export const Posts: FC = () => {
   const [isToggleViewPost, setIsToggleViewPost] = useState<boolean>(false);
   const [isToggleDelete, setIsToggleDelete] = useState<boolean>(false);
   const [viewPostId, setViewPostId] = useState<number | null>(null);
-  const { data: posts } = useGetPostsQuery();
+  const { data: posts, refetch } = useGetPostsQuery();
+  const [deletePost] = useDeletePostMutation();
 
   const { data: post } = useGetSinglePostQuery(viewPostId || -1, {
     skip: !viewPostId,
@@ -36,7 +41,19 @@ export const Posts: FC = () => {
     setViewPostId(id);
     setIsToggleDelete(true);
   };
-  const handleProceedDeletePost = () => {};
+
+  const handleProceedDeletePost = async () => {
+    if (viewPostId) {
+      // Call the delete API using the ID (convert it to string since API expects a string)
+      await deletePost(viewPostId.toString());
+
+      // After deletion, we refetch the posts list to reflect changes
+      refetch();
+
+      // Close the delete confirmation modal
+      setIsToggleDelete(false);
+    }
+  };
 
   return (
     <section>
@@ -129,7 +146,12 @@ export const Posts: FC = () => {
         />
       )}
 
-      {isToggleDelete && <ConfirmationDelete />}
+      {isToggleDelete && (
+        <ConfirmationDelete
+          setIsToggleDelete={setIsToggleDelete}
+          handleProceedDeletePost={handleProceedDeletePost}
+        />
+      )}
     </section>
   );
 };

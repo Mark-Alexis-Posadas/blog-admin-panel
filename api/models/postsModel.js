@@ -22,4 +22,19 @@ const getPostById = async (id) => {
   return rows[0];
 };
 
-module.exports = { getAllPosts, createPost, getPostById };
+const deletePost = async (id) => {
+  try {
+    const result = await db.execute("DELETE FROM posts WHERE id = ?", [id]);
+
+    if (result.affectedRows === 0) {
+      throw new Error("Post not found or failed to delete");
+    }
+
+    return { message: "Post deleted successfully", id };
+  } catch (error) {
+    console.error("Error deleting post:", error.message);
+    throw error;
+  }
+};
+
+module.exports = { getAllPosts, createPost, getPostById, deletePost };
