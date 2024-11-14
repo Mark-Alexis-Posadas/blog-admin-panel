@@ -16,7 +16,7 @@ const initialFormValues = {
 };
 export const AddNewPost: FC<Types> = ({ setIsTogglePosts }) => {
   const [values, setValues] = useState(initialFormValues);
-  const { title, image, content, categories } = initialFormValues;
+  const { title, image, content, categories } = values;
   const [createNewPost] = useCreateNewPostMutation();
   const handleFormChange = (
     e: React.ChangeEvent<
@@ -31,9 +31,9 @@ export const AddNewPost: FC<Types> = ({ setIsTogglePosts }) => {
     e.preventDefault();
 
     try {
+      await createNewPost({ title, image, content, categories }).unwrap();
       setIsTogglePosts(false);
       setValues(initialFormValues);
-      await createNewPost({ title, image, content, categories });
     } catch (error) {
       console.log((error as Error).message);
     }

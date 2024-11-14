@@ -2,10 +2,10 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface Posts {
   id: number;
-  title: string;
-  description: string;
-  category: string;
   image: string;
+  title: string;
+  content: string;
+  categories: string;
 }
 
 const apiSlice = createApi({
@@ -21,10 +21,10 @@ const apiSlice = createApi({
     }),
 
     createNewPost: builder.mutation<Posts, Partial<Posts>>({
-      query: (newPosts) => ({
-        url: "create-post",
+      query: (newPost) => ({
+        url: "/create-post",
         method: "POST",
-        body: newPosts,
+        body: newPost,
       }),
     }),
 

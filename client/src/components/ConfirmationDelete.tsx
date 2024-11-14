@@ -2,7 +2,11 @@ import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FC } from "react";
 
-export const ConfirmationDelete: FC = ({
+interface Types {
+  setIsToggleDelete: (close: boolean) => void;
+  handleProceedDeletePost: () => void;
+}
+export const ConfirmationDelete: FC<Types> = ({
   setIsToggleDelete,
   handleProceedDeletePost,
 }) => {

@@ -10,7 +10,7 @@ const getAllPosts = async (req, res) => {
   }
 };
 
-const createPost = async (req, res) => {
+const createNewPost = async (req, res) => {
   const { image, title, content, categories } = req.body;
 
   if (!image || !title || !content || !categories) {
@@ -19,14 +19,6 @@ const createPost = async (req, res) => {
 
   try {
     const post = await postModel.createPost(image, title, content, categories);
-    console.log("New post created:", {
-      id: post.insertId,
-      title,
-      content,
-      image,
-      categories,
-    });
-
     if (post && post.insertId) {
       return res.status(201).json({
         id: post.insertId,
@@ -68,7 +60,7 @@ const deletePost = async (req, res) => {
 
 module.exports = {
   getAllPosts,
-  createPost,
+  createNewPost,
   getSinglePost,
   deletePost,
   // updatePost,
