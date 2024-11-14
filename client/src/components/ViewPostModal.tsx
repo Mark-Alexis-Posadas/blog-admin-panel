@@ -6,7 +6,7 @@ interface Post {
   image: string;
   title: string;
   content: string;
-  category: string;
+  categories: string;
 }
 interface Type {
   viewPost: Post | null;
@@ -39,7 +39,7 @@ export const ViewPostModal: FC<Type> = ({ viewPost, setIsToggleViewPost }) => {
             <strong>Content:</strong> {viewPost.content}
           </li>
           <li className="mb-3">
-            <strong>Category:</strong> {viewPost.category}
+            <strong>Category:</strong> {viewPost.categories}
           </li>
         </ul>
       </div>

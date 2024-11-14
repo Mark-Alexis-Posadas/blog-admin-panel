@@ -44,13 +44,8 @@ export const Posts: FC = () => {
 
   const handleProceedDeletePost = async () => {
     if (viewPostId) {
-      // Call the delete API using the ID (convert it to string since API expects a string)
       await deletePost(viewPostId.toString());
-
-      // After deletion, we refetch the posts list to reflect changes
       refetch();
-
-      // Close the delete confirmation modal
       setIsToggleDelete(false);
     }
   };

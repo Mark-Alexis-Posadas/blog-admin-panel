@@ -2,7 +2,10 @@ import { faCircleXmark, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FC, useState } from "react";
 import { blogCategories } from "../data/catagories";
-import { useCreateNewPostMutation } from "../features/apiSlice";
+import {
+  useCreateNewPostMutation,
+  useGetPostsQuery,
+} from "../features/apiSlice";
 
 interface Types {
   setIsTogglePosts: (close: boolean) => void;
@@ -17,7 +20,10 @@ const initialFormValues = {
 export const AddNewPost: FC<Types> = ({ setIsTogglePosts }) => {
   const [values, setValues] = useState(initialFormValues);
   const { title, image, content, categories } = values;
+
   const [createNewPost] = useCreateNewPostMutation();
+
+  const { refetch } = useGetPostsQuery();
   const handleFormChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -32,6 +38,7 @@ export const AddNewPost: FC<Types> = ({ setIsTogglePosts }) => {
 
     try {
       await createNewPost({ title, image, content, categories }).unwrap();
+      refetch();
       setIsTogglePosts(false);
       setValues(initialFormValues);
     } catch (error) {
