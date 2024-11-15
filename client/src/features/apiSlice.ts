@@ -28,21 +28,18 @@ const apiSlice = createApi({
       }),
     }),
 
-    updatePost: builder.mutation<
-      Posts,
-      { id: string; product: Partial<Posts> }
-    >({
-      query: ({ id, product }) => ({
-        url: `/update-product/${id}`,
-        method: "PUT",
-        body: product,
-      }),
-    }),
-
     deletePost: builder.mutation<void, string>({
       query: (id) => ({
         url: `/delete-post/${id}`,
         method: "DELETE",
+      }),
+    }),
+
+    updatePost: builder.mutation<Posts, { id: number; post: Partial<Posts> }>({
+      query: ({ id, post }) => ({
+        url: `/update-post/${id}`,
+        method: "PUT",
+        body: post,
       }),
     }),
   }),

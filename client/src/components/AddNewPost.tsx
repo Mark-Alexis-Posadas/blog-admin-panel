@@ -5,9 +5,11 @@ import { blogCategories } from "../data/catagories";
 import {
   useCreateNewPostMutation,
   useGetPostsQuery,
+  useUpdatePostMutation,
 } from "../features/apiSlice";
 
 interface Types {
+  isEditing: boolean;
   setIsTogglePosts: (close: boolean) => void;
 }
 
@@ -17,12 +19,18 @@ const initialFormValues = {
   content: "",
   categories: "",
 };
-export const AddNewPost: FC<Types> = ({ setIsTogglePosts }) => {
+export const AddNewPost: FC<Types> = ({
+  viewPostId,
+  isEditing,
+  setIsTogglePosts,
+}) => {
   const [values, setValues] = useState(initialFormValues);
+
   const { title, image, content, categories } = values;
 
   const [createNewPost] = useCreateNewPostMutation();
-
+  const [updatePost] = useUpdatePostMutation();
+  const { data: post } = useGetPostsQuery();
   const { refetch } = useGetPostsQuery();
   const handleFormChange = (
     e: React.ChangeEvent<
@@ -36,13 +44,25 @@ export const AddNewPost: FC<Types> = ({ setIsTogglePosts }) => {
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    try {
-      await createNewPost({ title, image, content, categories }).unwrap();
-      refetch();
-      setIsTogglePosts(false);
-      setValues(initialFormValues);
-    } catch (error) {
-      console.log((error as Error).message);
+    if (isEditing) {
+      try {
+        const updatedPost = { ...post, title, image, content, categories };
+        await updatePost(updatedPost).unwrap();
+        refetch();
+        setIsTogglePosts(false);
+        setValues(post);
+      } catch (error) {
+        console.log((error as Error).message);
+      }
+    } else {
+      try {
+        await createNewPost({ title, image, content, categories }).unwrap();
+        refetch();
+        setIsTogglePosts(false);
+        setValues(initialFormValues);
+      } catch (error) {
+        console.log((error as Error).message);
+      }
     }
   };
 

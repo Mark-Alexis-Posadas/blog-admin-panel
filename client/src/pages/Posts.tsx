@@ -23,6 +23,7 @@ export const Posts: FC = () => {
   const [isTogglePosts, setIsTogglePosts] = useState<boolean>(false);
   const [isToggleViewPost, setIsToggleViewPost] = useState<boolean>(false);
   const [isToggleDelete, setIsToggleDelete] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   const [viewPostId, setViewPostId] = useState<number | null>(null);
   const { data: posts, refetch } = useGetPostsQuery();
   const [deletePost] = useDeletePostMutation();
@@ -48,6 +49,12 @@ export const Posts: FC = () => {
       refetch();
       setIsToggleDelete(false);
     }
+  };
+
+  const handleToggleUpdatePost = (id: number) => {
+    setViewPostId(id);
+    setIsTogglePosts(true);
+    setIsEditing(true);
   };
 
   return (
@@ -105,7 +112,7 @@ export const Posts: FC = () => {
                 <td className="px-6 py-4">comments</td>
                 <td className="px-6 py-4">
                   <button
-                    className="text-gray-600"
+                    className="outline-none text-gray-600"
                     onClick={() => handleViewPost(item.id)}
                   >
                     <FontAwesomeIcon icon={faEye} />
@@ -113,7 +120,7 @@ export const Posts: FC = () => {
                 </td>
                 <td className="px-6 py-4">
                   <button
-                    className="text-red-600"
+                    className="outline-none text-red-600"
                     onClick={() => handleToggleDeletePost(item.id)}
                   >
                     <FontAwesomeIcon icon={faTrash} />
@@ -121,8 +128,8 @@ export const Posts: FC = () => {
                 </td>
                 <td className="px-6 py-4">
                   <button
-                    className="text-blue-600"
-                    onClick={() => handleToggleDeletePost(item.id)}
+                    className="outline-none text-blue-600"
+                    onClick={() => handleToggleUpdatePost(item.id)}
                   >
                     <FontAwesomeIcon icon={faPencil} />
                   </button>
@@ -133,7 +140,13 @@ export const Posts: FC = () => {
         </table>
       </div>
 
-      {isTogglePosts && <AddNewPost setIsTogglePosts={setIsTogglePosts} />}
+      {isTogglePosts && (
+        <AddNewPost
+          viewPostId={viewPostId}
+          isEditing={isEditing}
+          setIsTogglePosts={setIsTogglePosts}
+        />
+      )}
       {isToggleViewPost && (
         <ViewPostModal
           viewPost={post}

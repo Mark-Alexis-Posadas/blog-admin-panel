@@ -37,4 +37,24 @@ const deletePost = async (id) => {
   }
 };
 
-module.exports = { getAllPosts, createPost, getPostById, deletePost };
+const patchPost = async (id, newPostData) => {
+  try {
+    const { image, title, content, categories } = newPostData;
+    await db.execute(
+      "UPDATE posts SET image = ? title = ?, content = ?, categories = ? WHERE id = ?",
+      [image, title, content, categories, id]
+    );
+    return { message: "Post updated successfully", id };
+  } catch (error) {
+    console.error("Error updating post:", error.message);
+    throw error;
+  }
+};
+
+module.exports = {
+  getAllPosts,
+  createPost,
+  getPostById,
+  deletePost,
+  patchPost,
+};
