@@ -37,11 +37,11 @@ const deletePost = async (id) => {
   }
 };
 
-const patchPost = async (id, newPostData) => {
+const updatePost = async (id, newPostData) => {
   try {
     const { image, title, content, categories } = newPostData;
     await db.execute(
-      "UPDATE posts SET image = ? title = ?, content = ?, categories = ? WHERE id = ?",
+      "UPDATE posts SET image = ?, title = ?, content = ?, categories = ? WHERE id = ?",
       [image, title, content, categories, id]
     );
     return { message: "Post updated successfully", id };
@@ -56,5 +56,5 @@ module.exports = {
   createPost,
   getPostById,
   deletePost,
-  patchPost,
+  updatePost,
 };

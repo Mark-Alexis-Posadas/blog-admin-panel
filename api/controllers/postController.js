@@ -63,7 +63,7 @@ const updatePost = async (req, res) => {
   const { image, title, content, categories } = req.body;
 
   try {
-    const updatedPost = await postModel.patchPost(id, {
+    const updatedPost = await postModel.updatePost(id, {
       image,
       title,
       content,
