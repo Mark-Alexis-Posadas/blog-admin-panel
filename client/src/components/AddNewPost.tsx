@@ -30,8 +30,11 @@ export const AddNewPost: FC<Types> = ({
 
   const [createNewPost] = useCreateNewPostMutation();
   const [updatePost] = useUpdatePostMutation();
-  const { data: post } = useGetPostsQuery();
+
+  const { data: fetchedPosts = [] } = useGetPostsQuery();
   const { refetch } = useGetPostsQuery();
+  const [postUpdate, setPostUpdate] = useState(fetchedPosts);
+
   const handleFormChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -44,25 +47,24 @@ export const AddNewPost: FC<Types> = ({
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (isEditing) {
-      try {
-        const updatedPost = { ...post, title, image, content, categories };
-        await updatePost(updatedPost).unwrap();
-        refetch();
+    try {
+      if (isEditing) {
         setIsTogglePosts(false);
-        setValues(post);
-      } catch (error) {
-        console.log((error as Error).message);
-      }
-    } else {
-      try {
+        const updatedPost = { title, image, content, categories };
+        await updatePost({ id: viewPostId, updatedPost });
+
+        const updatedProducts = postUpdate.map((post) =>
+          post.id === viewPostId ? { ...post, ...updatedPost } : post
+        );
+        setPostUpdate(updatedProducts);
+      } else {
         await createNewPost({ title, image, content, categories }).unwrap();
         refetch();
         setIsTogglePosts(false);
         setValues(initialFormValues);
-      } catch (error) {
-        console.log((error as Error).message);
       }
+    } catch (error) {
+      console.log((error as Error).message);
     }
   };
 

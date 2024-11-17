@@ -8,7 +8,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { AddNewPost } from "../components/AddNewPost";
 import {
   useDeletePostMutation,
@@ -25,12 +25,18 @@ export const Posts: FC = () => {
   const [isToggleDelete, setIsToggleDelete] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [viewPostId, setViewPostId] = useState<number | null>(null);
-  const { data: posts, refetch } = useGetPostsQuery();
+
+  const { data: posts = [], refetch } = useGetPostsQuery();
+  const [fetchedPosts, setFetchedPosts] = useState(posts);
   const [deletePost] = useDeletePostMutation();
 
   const { data: post } = useGetSinglePostQuery(viewPostId || -1, {
     skip: !viewPostId,
   });
+
+  useEffect(() => {
+    setFetchedPosts(posts);
+  }, [posts]);
 
   const handleViewPost = (id: number) => {
     setViewPostId(id);
@@ -91,7 +97,7 @@ export const Posts: FC = () => {
             </tr>
           </thead>
           <tbody>
-            {posts?.map((item) => (
+            {fetchedPosts?.map((item) => (
               <tr
                 key={item.id}
                 className="border-b dark:border-gray-700 odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800"
