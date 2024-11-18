@@ -11,21 +11,34 @@ import {
 interface Types {
   isEditing: boolean;
   setIsTogglePosts: (close: boolean) => void;
+  setIsEditing: (close: boolean) => void;
+  values: { title: string; image: string; content: string; categories: string };
+  setValues: (values: {
+    title: string;
+    image: string;
+    content: string;
+    categories: string;
+  }) => void;
+  initialFormValues: {
+    title: string;
+    image: string;
+    content: string;
+    categories: string;
+  };
+  viewPostId: number | null;
+  setViewPostId: (id: number | null) => void;
 }
 
-const initialFormValues = {
-  title: "",
-  image: "",
-  content: "",
-  categories: "",
-};
 export const AddNewPost: FC<Types> = ({
+  values,
+  setValues,
+  initialFormValues,
   viewPostId,
+  setViewPostId,
+  setIsEditing,
   isEditing,
   setIsTogglePosts,
 }) => {
-  const [values, setValues] = useState(initialFormValues);
-
   const { title, image, content, categories } = values;
 
   const [createNewPost] = useCreateNewPostMutation();
@@ -44,6 +57,11 @@ export const AddNewPost: FC<Types> = ({
     setValues({ ...values, [name]: value });
   };
 
+  const handleCancel = () => {
+    setIsTogglePosts(false), setViewPostId(null), setIsEditing(false);
+    setValues(initialFormValues);
+  };
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -53,10 +71,10 @@ export const AddNewPost: FC<Types> = ({
         const updatedPost = { title, image, content, categories };
         await updatePost({ id: viewPostId, updatedPost });
 
-        const updatedProducts = postUpdate.map((post) =>
+        const updatedPosts = postUpdate.map((post) =>
           post.id === viewPostId ? { ...post, ...updatedPost } : post
         );
-        setPostUpdate(updatedProducts);
+        setPostUpdate(updatedPosts);
       } else {
         await createNewPost({ title, image, content, categories }).unwrap();
         refetch();
@@ -74,7 +92,9 @@ export const AddNewPost: FC<Types> = ({
         className="bg-white dark:bg-gray-700 p-5 md:p-10 w-[900px]"
         onSubmit={handleFormSubmit}
       >
-        <h1 className="font-bold text-xl mb-5">Add new post</h1>
+        <h1 className="font-bold text-xl mb-5">
+          {isEditing ? "Update Post" : "Add new post"}
+        </h1>
         <div className="mb-3">
           <label>Title</label>
           <input
@@ -124,16 +144,16 @@ export const AddNewPost: FC<Types> = ({
         <div className="flex items-center gap-3">
           <button
             className="text-white rounded p-2 bg-red-600 flex items-center gap-2"
-            onClick={() => setIsTogglePosts(false)}
+            onClick={handleCancel}
           >
-            cancel
+            Cancel
             <FontAwesomeIcon icon={faCircleXmark} />
           </button>
           <button
             className="text-white rounded p-2 bg-blue-600 flex items-center gap-2"
             type="submit"
           >
-            submit
+            {isEditing ? "Update" : "Submit"}
             <FontAwesomeIcon icon={faPaperPlane} />
           </button>
         </div>

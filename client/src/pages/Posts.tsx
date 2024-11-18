@@ -19,7 +19,15 @@ import { ViewPostModal } from "../components/ViewPostModal";
 import { columns } from "../data/PostsHeader";
 import { ConfirmationDelete } from "../components/ConfirmationDelete";
 
+const initialFormValues = {
+  title: "",
+  image: "",
+  content: "",
+  categories: "",
+};
+
 export const Posts: FC = () => {
+  const [values, setValues] = useState(initialFormValues);
   const [isTogglePosts, setIsTogglePosts] = useState<boolean>(false);
   const [isToggleViewPost, setIsToggleViewPost] = useState<boolean>(false);
   const [isToggleDelete, setIsToggleDelete] = useState<boolean>(false);
@@ -58,9 +66,18 @@ export const Posts: FC = () => {
   };
 
   const handleToggleUpdatePost = (id: number) => {
-    setViewPostId(id);
-    setIsTogglePosts(true);
-    setIsEditing(true);
+    const postToEdit = posts.find((post) => post.id === id);
+    if (postToEdit) {
+      setViewPostId(id);
+      setIsTogglePosts(true);
+      setIsEditing(true);
+      setValues({
+        title: postToEdit.title,
+        image: postToEdit.image,
+        content: postToEdit.content,
+        categories: postToEdit.categories,
+      });
+    }
   };
 
   return (
@@ -148,8 +165,13 @@ export const Posts: FC = () => {
 
       {isTogglePosts && (
         <AddNewPost
+          values={values}
+          setValues={setValues}
+          initialFormValues={initialFormValues}
           viewPostId={viewPostId}
+          setViewPostId={setViewPostId}
           isEditing={isEditing}
+          setIsEditing={setIsEditing}
           setIsTogglePosts={setIsTogglePosts}
         />
       )}
