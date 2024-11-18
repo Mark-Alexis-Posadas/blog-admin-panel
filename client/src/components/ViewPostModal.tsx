@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FC } from "react";
 
 interface Post {
-  image: string;
   title: string;
+  image: string;
   content: string;
   categories: string;
 }

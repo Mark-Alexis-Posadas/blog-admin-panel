@@ -38,7 +38,11 @@ export const Posts: FC = () => {
   const [fetchedPosts, setFetchedPosts] = useState(posts);
   const [deletePost] = useDeletePostMutation();
 
-  const { data: post } = useGetSinglePostQuery(viewPostId || -1, {
+  const {
+    data: post,
+    error,
+    isLoading,
+  } = useGetSinglePostQuery(viewPostId || -1, {
     skip: !viewPostId,
   });
 
@@ -49,7 +53,6 @@ export const Posts: FC = () => {
   const handleViewPost = (id: number) => {
     setViewPostId(id);
     setIsToggleViewPost(true);
-    console.log(post);
   };
 
   const handleToggleDeletePost = (id: number) => {
@@ -177,7 +180,7 @@ export const Posts: FC = () => {
       )}
       {isToggleViewPost && (
         <ViewPostModal
-          viewPost={post}
+          viewPost={post || null}
           setIsToggleViewPost={setIsToggleViewPost}
         />
       )}
