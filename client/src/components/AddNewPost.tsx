@@ -11,6 +11,12 @@ import {
 } from "../features/apiSlice";
 import { AddNewPostTypes } from "../types/add-post";
 
+const Schema = Yup.object({
+  title: Yup.string().required("Title is required"),
+  content: Yup.string().required("content is required"),
+  image: Yup.string().required("image is required"),
+});
+
 export const AddNewPost: FC<AddNewPostTypes> = ({
   values,
   setValues,
@@ -28,15 +34,6 @@ export const AddNewPost: FC<AddNewPostTypes> = ({
   const [createNewPost] = useCreateNewPostMutation();
   const [updatePost] = useUpdatePostMutation();
   const [postUpdate, setPostUpdate] = useState(fetchedPosts);
-
-  const handleFormChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { value, name } = e.target;
-    setValues({ ...values, [name]: value });
-  };
 
   const handleCategoriesChange = (categoryId: string) => {
     setSelectedCategories((prevSelected) => {
@@ -107,31 +104,31 @@ export const AddNewPost: FC<AddNewPostTypes> = ({
           <h1 className="font-bold text-xl mb-5">
             {isEditing ? "Update Post" : "Add new post"}
           </h1>
-          <div className="mb-3">
-            <label>Title</label>
-            <input
-              onChange={handleFormChange}
-              value={values.title}
-              name="title"
-              type="text"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            />
-          </div>
-          <div className="mb-3">
-            <label>Image</label>
-            <input
-              onChange={handleFormChange}
-              value={values.image}
-              name="image"
-              type="text"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            />
-          </div>
+          <Field
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.title}
+            name="title"
+            type="text"
+            placeholder="title"
+            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          />
+
+          <Field
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.image}
+            name="image"
+            type="text"
+            placeholder="image url"
+            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          />
 
           <div className="mb-3">
             <label>Content</label>
             <textarea
-              onChange={handleFormChange}
+              onChange={handleChange}
+              onBlur={handleBlur}
               value={values.content}
               name="content"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
