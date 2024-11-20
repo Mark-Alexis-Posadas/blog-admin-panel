@@ -10,6 +10,9 @@ import {
   useUpdatePostMutation,
 } from "../features/apiSlice";
 import { AddNewPostTypes } from "../types/add-post";
+import { Error } from "./Forms/Error";
+import { Input } from "./Forms/Input";
+import { TextArea } from "./Forms/TextArea";
 
 const Schema = Yup.object({
   title: Yup.string().required("Title is required"),
@@ -67,16 +70,16 @@ export const AddNewPost: FC<AddNewPostTypes> = ({
         try {
           if (isEditing) {
             setIsTogglePosts(false);
-            const updatedPost = {
-              title,
-              image,
-              content,
-              categories: selectedCategories,
-            };
-            await updatePost({ id: viewPostId, updatedPost });
+            // const updatedPost = {
+            //   title,
+            //   image,
+            //   content,
+            //   categories: selectedCategories,
+            // };
+            await updatePost({ id: viewPostId, values });
 
             const updatedPosts = postUpdate.map((post) =>
-              post.id === viewPostId ? { ...post, ...updatedPost } : post
+              post.id === viewPostId ? { ...post, ...values } : post
             );
             setPostUpdate(updatedPosts);
           } else {
@@ -97,43 +100,53 @@ export const AddNewPost: FC<AddNewPostTypes> = ({
       className="flex items-center justify-center fixed w-full top-0 left-0 min-h-screen bg-[rgba(0,0,0,0.4)]"
     >
       {({ values, handleChange, handleBlur, isSubmitting, errors }) => (
-        <form
-          className="bg-white dark:bg-gray-700 p-5 md:p-10 w-[900px]"
-          onSubmit={handleFormSubmit}
-        >
+        <form className="bg-white dark:bg-gray-700 p-5 md:p-10 w-[900px]">
           <h1 className="font-bold text-xl mb-5">
             {isEditing ? "Update Post" : "Add new post"}
           </h1>
+
+          <ErrorMessage name="title" component={Error} />
           <Field
+            label="Title"
+            component={Input}
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.title}
             name="title"
             type="text"
             placeholder="title"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className={`${
+              errors.title ? "border-red-500" : "border-gray-300 "
+            } block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
           />
-
+          <ErrorMessage name="image" component={Error} />
           <Field
+            label="Image"
+            component={Input}
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.image}
             name="image"
             type="text"
             placeholder="image url"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className={`${
+              errors.image ? "border-red-500" : "border-gray-300 "
+            } block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
           />
 
-          <div className="mb-3">
-            <label>Content</label>
-            <textarea
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.content}
-              name="content"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            ></textarea>
-          </div>
+          <ErrorMessage name="content" component={Error} />
+          <Field
+            label="Content"
+            component={TextArea}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.content}
+            name="content"
+            className={`${
+              errors.image ? "border-red-500" : "border-gray-300 "
+            } block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
+          />
+
           <div className="mb-3">
             <label>categories</label>
             <div className="rellative">
@@ -170,6 +183,7 @@ export const AddNewPost: FC<AddNewPostTypes> = ({
               <FontAwesomeIcon icon={faCircleXmark} />
             </button>
             <button
+              disabled={isSubmitting}
               className="text-white rounded p-2 bg-blue-600 flex items-center gap-2"
               type="submit"
             >
