@@ -8,7 +8,7 @@ export const Input: FC<InputProps> = ({ field, form, label, ...props }) => {
   return (
     <div className="mb-3">
       <label>{label}</label>
-      <input {...field} {...props} /> ;
+      <input {...field} {...props} />
     </div>
   );
 };
