@@ -1,19 +1,31 @@
 import { FC } from "react";
-import { FieldProps } from "formik";
 
-interface TextAreaProps extends FieldProps {
+interface TextAreaProps {
+  handleChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  value: string;
   label: string;
+  className: string;
+  name: string;
+  id: string;
 }
 export const TextArea: FC<TextAreaProps> = ({
-  field,
-  form,
+  handleChange,
+  value,
+  className,
+  name,
+  id,
   label,
-  ...props
 }) => {
   return (
     <div className="mb-3">
       <label>{label}</label>
-      <textarea {...field} {...props} name="" id=""></textarea>
+      <textarea
+        onChange={handleChange}
+        value={value}
+        className={className}
+        name={name}
+        id={id}
+      ></textarea>
     </div>
   );
 };
