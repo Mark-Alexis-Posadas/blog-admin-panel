@@ -35,20 +35,16 @@ export const Posts: FC = () => {
   const [viewPostId, setViewPostId] = useState<number | null>(null);
 
   const { data: posts = [], refetch } = useGetPostsQuery();
-  const [fetchedPosts, setFetchedPosts] = useState(posts);
+  // const [fetchedPosts, setFetchedPosts] = useState(posts);
   const [deletePost] = useDeletePostMutation();
 
-  const {
-    data: post,
-    error,
-    isLoading,
-  } = useGetSinglePostQuery(viewPostId || -1, {
+  const { data: post } = useGetSinglePostQuery(viewPostId || -1, {
     skip: !viewPostId,
   });
 
-  useEffect(() => {
-    setFetchedPosts(posts);
-  }, [posts]);
+  // useEffect(() => {
+  //   setFetchedPosts(posts);
+  // }, [posts]);
 
   const handleViewPost = (id: number) => {
     setViewPostId(id);
@@ -117,7 +113,7 @@ export const Posts: FC = () => {
             </tr>
           </thead>
           <tbody>
-            {fetchedPosts?.map((item) => (
+            {posts?.map((item) => (
               <tr
                 key={item.id}
                 className="border-b dark:border-gray-700 odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800"

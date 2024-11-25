@@ -1,7 +1,11 @@
 import { FC } from "react";
 import { faCircleXmark, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useCreateNewPostMutation } from "../features/apiSlice";
+import {
+  useCreateNewPostMutation,
+  useGetPostsQuery,
+  useUpdatePostMutation,
+} from "../features/apiSlice";
 import { AddNewPostTypes } from "../types/add-post";
 import { Input } from "./Forms/Input";
 import { TextArea } from "./Forms/TextArea";
@@ -11,12 +15,16 @@ export const AddNewPost: FC<AddNewPostTypes> = ({
   values,
   setValues,
   initialFormValues,
-  setIsTogglePosts,
+  viewPostId,
+  setViewPostId,
   isEditing,
+  setIsEditing,
+  setIsTogglePosts,
 }) => {
   const { title, image, content } = values;
   const [createNewPost] = useCreateNewPostMutation();
-
+  const [updatePost] = useUpdatePostMutation();
+  const { refetch } = useGetPostsQuery();
   const handleChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -81,7 +89,7 @@ export const AddNewPost: FC<AddNewPostTypes> = ({
               key={item.id}
               label={item.name}
               handleChange={handleChange}
-              value={initialFormValues}
+              value={values[item.name.toLowerCase()]}
               name={item.name.toLowerCase()}
               type="text"
               placeHolder={item.name}
@@ -94,7 +102,7 @@ export const AddNewPost: FC<AddNewPostTypes> = ({
               key={item.id}
               label={item.name}
               handleChange={handleChange}
-              value={initialFormValues}
+              value={values[item.name.toLowerCase()]}
               name={item.name.toLowerCase()}
               className={` "border-gray-300 
            block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer`}

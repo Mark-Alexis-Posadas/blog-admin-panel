@@ -11,21 +11,20 @@ const getAllPosts = async (req, res) => {
 };
 
 const createNewPost = async (req, res) => {
-  const { image, title, content, categories } = req.body;
+  const { image, title, content } = req.body;
 
-  if (!image || !title || !content || !categories) {
+  if (!image || !title || !content) {
     return res.status(400).json({ message: "Title and content are required" });
   }
 
   try {
-    const post = await postModel.createPost(image, title, content, categories);
+    const post = await postModel.createPost(image, title, content);
     if (post && post.insertId) {
       return res.status(201).json({
         id: post.insertId,
         title,
         content,
         image,
-        categories,
       });
     }
 
