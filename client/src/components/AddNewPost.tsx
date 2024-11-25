@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { faCircleXmark, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -22,9 +22,12 @@ export const AddNewPost: FC<AddNewPostTypes> = ({
   setIsTogglePosts,
 }) => {
   const { title, image, content } = values;
+  const { data: fetchedPosts = [] } = useGetPostsQuery();
   const [createNewPost] = useCreateNewPostMutation();
   const [updatePost] = useUpdatePostMutation();
   const { refetch } = useGetPostsQuery();
+
+  const [postUpdate, setPostUpdate] = useState(fetchedPosts);
   const handleChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -38,6 +41,7 @@ export const AddNewPost: FC<AddNewPostTypes> = ({
   };
 
   const handleCancel = () => {
+    setIsEditing(false);
     setIsTogglePosts(false);
     setValues(initialFormValues);
   };
@@ -80,7 +84,9 @@ export const AddNewPost: FC<AddNewPostTypes> = ({
         className="bg-white dark:bg-gray-700 p-5 md:p-10 w-[900px]"
         onSubmit={handleFormSubmit}
       >
-        <h1 className="font-bold text-xl mb-5">Add Post</h1>
+        <h1 className="font-bold text-xl mb-5">
+          {isEditing ? "Update Post" : "Add Post"}
+        </h1>
 
         {formData.map((item, index) =>
           index != 2 ? (
@@ -124,7 +130,7 @@ export const AddNewPost: FC<AddNewPostTypes> = ({
             type="submit"
             className="text-white rounded p-2 bg-blue-600 flex items-center gap-2"
           >
-            Submit
+            {isEditing ? "Update" : "Submit"}
             <FontAwesomeIcon icon={faPaperPlane} />
           </button>
         </div>

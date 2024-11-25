@@ -35,7 +35,7 @@ export const Posts: FC = () => {
   const [viewPostId, setViewPostId] = useState<number | null>(null);
 
   const { data: posts = [], refetch } = useGetPostsQuery();
-  // const [fetchedPosts, setFetchedPosts] = useState(posts);
+  const [fetchedPosts, setFetchedPosts] = useState(posts);
   const [deletePost] = useDeletePostMutation();
 
   const { data: post } = useGetSinglePostQuery(viewPostId || -1, {
