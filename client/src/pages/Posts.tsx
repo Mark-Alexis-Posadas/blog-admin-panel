@@ -42,9 +42,9 @@ export const Posts: FC = () => {
     skip: !viewPostId,
   });
 
-  // useEffect(() => {
-  //   setFetchedPosts(posts);
-  // }, [posts]);
+  useEffect(() => {
+    setFetchedPosts(posts);
+  }, [posts]);
 
   const handleViewPost = (id: number) => {
     setViewPostId(id);
@@ -113,7 +113,7 @@ export const Posts: FC = () => {
             </tr>
           </thead>
           <tbody>
-            {posts?.map((item) => (
+            {fetchedPosts?.map((item) => (
               <tr
                 key={item.id}
                 className="border-b dark:border-gray-700 odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800"

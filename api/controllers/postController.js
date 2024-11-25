@@ -59,14 +59,13 @@ const deletePost = async (req, res) => {
 
 const updatePost = async (req, res) => {
   const { id } = req.params;
-  const { image, title, content, categories } = req.body;
+  const { image, title, content } = req.body;
 
   try {
     const updatedPost = await postModel.updatePost(id, {
       image,
       title,
       content,
-      categories,
     });
     if (updatedPost) {
       res
