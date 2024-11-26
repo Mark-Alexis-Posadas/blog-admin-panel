@@ -1,5 +1,7 @@
 import {
+  faComments,
   faEye,
+  faHeart,
   faPencil,
   faPlus,
   faSearch,
@@ -141,8 +143,18 @@ export const Posts: FC = () => {
                 <td className="px-6 py-4">{item.title}</td>
                 <td className="px-6 py-4">{item.content}</td>
 
-                <td className="px-6 py-4">likes</td>
-                <td className="px-6 py-4">comments</td>
+                <td className="px-6 py-4">
+                  <div className="flex items-center gap-2">
+                    <FontAwesomeIcon icon={faHeart} />
+                    <span>likes</span>
+                  </div>
+                </td>
+                <td className="px-6 py-4">
+                  <div className="flex items-center gap-2">
+                    <FontAwesomeIcon icon={faComments} />
+                    <span>comments</span>
+                  </div>
+                </td>
                 <td className="px-6 py-4">
                   <button
                     className="outline-none text-gray-600"
