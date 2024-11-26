@@ -41,7 +41,7 @@ const updatePost = async (id, newPostData) => {
   try {
     const { image, title, content } = newPostData;
     await db.execute(
-      "UPDATE posts SET image = ?, title = ?, content = ?, WHERE id = ?",
+      "UPDATE posts SET image = ?, title = ?, content = ? WHERE id = ?",
       [image, title, content, id]
     );
     return { message: "Post updated successfully", id };

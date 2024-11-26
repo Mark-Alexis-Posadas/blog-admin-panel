@@ -28,12 +28,14 @@ export const AddNewPost: FC<AddNewPostTypes> = ({
   const { refetch } = useGetPostsQuery();
 
   const [postUpdate, setPostUpdate] = useState(fetchedPosts);
+
   const handleChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const { value, name } = e.target;
+
     setValues({
       ...values,
       [name]: value,
@@ -43,27 +45,31 @@ export const AddNewPost: FC<AddNewPostTypes> = ({
   const handleCancel = () => {
     setIsEditing(false);
     setIsTogglePosts(false);
+    setViewPostId(null);
     setValues(initialFormValues);
   };
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const updatedPost = {
+      title,
+      image,
+      content,
+    };
+
     try {
       if (isEditing) {
         setIsTogglePosts(false);
-        const updatedPost = {
-          title,
-          image,
-          content,
-        };
-        await updatePost({ id: viewPostId, updatedPost });
+        console.log(viewPostId, updatedPost);
+
+        await updatePost({ id: viewPostId, post: updatedPost });
 
         const updatedPosts = postUpdate.map((post) =>
-          post.id === viewPostId ? { ...post, ...values } : post
+          post.id === viewPostId ? { ...post, ...updatedPost } : post
         );
+
         setPostUpdate(updatedPosts);
       } else {
-        console.log(values);
         await createNewPost({
           title,
           image,

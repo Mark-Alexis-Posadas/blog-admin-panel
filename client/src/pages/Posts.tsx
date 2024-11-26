@@ -23,7 +23,6 @@ const initialFormValues = {
   title: "",
   image: "",
   content: "",
-  categories: "",
 };
 
 export const Posts: FC = () => {
@@ -74,7 +73,6 @@ export const Posts: FC = () => {
         title: postToEdit.title,
         image: postToEdit.image,
         content: postToEdit.content,
-        categories: postToEdit.categories,
       });
     }
   };
@@ -129,7 +127,7 @@ export const Posts: FC = () => {
                 </th>
                 <td className="px-6 py-4">{item.title}</td>
                 <td className="px-6 py-4">{item.content}</td>
-                <td className="px-6 py-4">{item.categories}</td>
+
                 <td className="px-6 py-4">likes</td>
                 <td className="px-6 py-4">comments</td>
                 <td className="px-6 py-4">
