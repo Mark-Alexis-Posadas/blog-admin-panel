@@ -77,6 +77,19 @@ export const Posts: FC = () => {
     }
   };
 
+  const updateFetchedPosts = (newPost: any, isEditing: boolean) => {
+    if (isEditing) {
+      // Update the existing post
+      const updatedPosts = fetchedPosts.map((post) =>
+        post.id === newPost.id ? { ...post, ...newPost } : post
+      );
+      setFetchedPosts(updatedPosts);
+    } else {
+      // Add the new post to the list
+      setFetchedPosts((prevPosts) => [...prevPosts, newPost]);
+    }
+  };
+
   return (
     <section>
       <div className="flex items-center justify-between shadow-custom-shadow rounded p-4 w-[700px] m-auto">
@@ -170,6 +183,7 @@ export const Posts: FC = () => {
           isEditing={isEditing}
           setIsEditing={setIsEditing}
           setIsTogglePosts={setIsTogglePosts}
+          updateFetchedPosts={updateFetchedPosts}
         />
       )}
       {isToggleViewPost && (

@@ -20,6 +20,7 @@ export const AddNewPost: FC<AddNewPostTypes> = ({
   isEditing,
   setIsEditing,
   setIsTogglePosts,
+  updateFetchedPosts,
 }) => {
   const { title, image, content } = values;
   const { data: fetchedPosts = [] } = useGetPostsQuery();
@@ -60,22 +61,18 @@ export const AddNewPost: FC<AddNewPostTypes> = ({
     try {
       if (isEditing) {
         setIsTogglePosts(false);
-        console.log(viewPostId, updatedPost);
+        await updatePost({ id: viewPostId, post: updatedPost }).unwrap();
 
-        await updatePost({ id: viewPostId, post: updatedPost });
-
-        const updatedPosts = postUpdate.map((post) =>
-          post.id === viewPostId ? { ...post, ...updatedPost } : post
-        );
-
-        setPostUpdate(updatedPosts);
+        // Optimistically update the posts locally
+        updateFetchedPosts({ ...updatedPost, id: viewPostId }, true);
       } else {
-        await createNewPost({
+        const newPost = await createNewPost({
           title,
           image,
           content,
         }).unwrap();
-        refetch();
+        updateFetchedPosts(newPost, false);
+
         setIsTogglePosts(false);
         setValues(initialFormValues);
       }
