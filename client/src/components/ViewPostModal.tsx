@@ -2,18 +2,12 @@ import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FC } from "react";
 
-interface Post {
-  title: string;
-  image: string;
-  content: string;
-  categories: string;
-}
-interface Type {
-  viewPost: Post | null;
-  setIsToggleViewPost: (close: boolean) => void;
-}
+import { PostTypes } from "../types/view-post";
 
-export const ViewPostModal: FC<Type> = ({ viewPost, setIsToggleViewPost }) => {
+export const ViewPostModal: FC<PostTypes> = ({
+  viewPost,
+  setIsToggleViewPost,
+}) => {
   if (!viewPost) {
     return null;
   }

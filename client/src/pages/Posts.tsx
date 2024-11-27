@@ -28,20 +28,20 @@ const initialFormValues = {
 };
 
 export const Posts: FC = () => {
+  const { data: posts = [], refetch } = useGetPostsQuery();
+  const [deletePost] = useDeletePostMutation();
+  const [viewPostId, setViewPostId] = useState<number | null>(null);
+  const { data: post } = useGetSinglePostQuery(viewPostId || -1, {
+    skip: !viewPostId,
+  });
+
   const [values, setValues] = useState(initialFormValues);
   const [isTogglePosts, setIsTogglePosts] = useState<boolean>(false);
   const [isToggleViewPost, setIsToggleViewPost] = useState<boolean>(false);
   const [isToggleDelete, setIsToggleDelete] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [viewPostId, setViewPostId] = useState<number | null>(null);
 
-  const { data: posts = [], refetch } = useGetPostsQuery();
   const [fetchedPosts, setFetchedPosts] = useState(posts);
-  const [deletePost] = useDeletePostMutation();
-
-  const { data: post } = useGetSinglePostQuery(viewPostId || -1, {
-    skip: !viewPostId,
-  });
 
   useEffect(() => {
     setFetchedPosts(posts);

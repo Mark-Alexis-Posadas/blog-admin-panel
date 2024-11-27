@@ -1,12 +1,9 @@
+import { FC } from "react";
 import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FC } from "react";
 
-interface Types {
-  setIsToggleDelete: (close: boolean) => void;
-  handleProceedDeletePost: () => void;
-}
-export const ConfirmationDelete: FC<Types> = ({
+import { ConfirmModalTypes } from "../types/confirm-modal";
+export const ConfirmationDelete: FC<ConfirmModalTypes> = ({
   setIsToggleDelete,
   handleProceedDeletePost,
 }) => {

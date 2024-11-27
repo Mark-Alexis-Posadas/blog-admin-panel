@@ -1,26 +1,19 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-interface Posts {
-  id: number;
-  image: string;
-  title: string;
-  content: string;
-  categories: string;
-}
+import { PostsTypes } from "../types/api";
 
 const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/posts" }),
   endpoints: (builder) => ({
-    getPosts: builder.query<Posts[], void>({
+    getPosts: builder.query<PostsTypes[], void>({
       query: () => "/get-all-posts",
     }),
 
-    getSinglePost: builder.query<Posts, number>({
+    getSinglePost: builder.query<PostsTypes, number>({
       query: (id) => `/get-single-post/${id}`,
     }),
 
-    createNewPost: builder.mutation<Posts, Partial<Posts>>({
+    createNewPost: builder.mutation<PostsTypes, Partial<PostsTypes>>({
       query: (newPost) => ({
         url: "/create-post",
         method: "POST",
@@ -35,7 +28,10 @@ const apiSlice = createApi({
       }),
     }),
 
-    updatePost: builder.mutation<Posts, { id: number; post: Partial<Posts> }>({
+    updatePost: builder.mutation<
+      PostsTypes,
+      { id: number; post: Partial<PostsTypes> }
+    >({
       query: ({ id, post }) => ({
         url: `/update-post/${id}`,
         method: "PUT",

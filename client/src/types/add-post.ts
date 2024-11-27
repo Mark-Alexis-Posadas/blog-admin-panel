@@ -15,4 +15,5 @@ export interface AddNewPostTypes {
   };
   viewPostId: number | null;
   setViewPostId: (id: number | null) => void;
+  updateFetchedPosts: (open: boolean) => void;
 }
