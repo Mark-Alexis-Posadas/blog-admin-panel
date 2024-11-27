@@ -1,3 +1,8 @@
+type Post = {
+  id: string | number;
+  [key: string]: any;
+};
+
 export interface AddNewPostTypes {
   isEditing: boolean;
   setIsTogglePosts: (close: boolean) => void;
@@ -15,5 +20,5 @@ export interface AddNewPostTypes {
   };
   viewPostId: number | null;
   setViewPostId: (id: number | null) => void;
-  updateFetchedPosts: (open: boolean) => void;
+  updateFetchedPosts: (newPost: Post, isEditing: boolean) => void;
 }
