@@ -1,3 +1,4 @@
+"use client";
 import {
   faComments,
   faEye,
@@ -14,7 +15,7 @@ import { FC, useState, useEffect } from "react";
 import { AddNewPost } from "@/components/AddNewPost";
 
 import { ViewPostModal } from "@/components/ViewPostModal";
-import { columns } from "../data/PostsHeader";
+import { columns } from "@/data/PostsHeader";
 
 import { ConfirmationDelete } from "@/components/ConfirmationDelete";
 import { TableHeading } from "@/components/Table/TableHeading";

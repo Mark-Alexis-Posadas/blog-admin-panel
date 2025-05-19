@@ -1,10 +1,8 @@
+"use client";
 import { FC } from "react";
 import { faCircleXmark, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  useCreateNewPostMutation,
-  useUpdatePostMutation,
-} from "../features/apiSlice";
+
 import { AddNewPostTypes } from "../types/add-post";
 import { Input } from "./Forms/Input";
 import { TextArea } from "./Forms/TextArea";
