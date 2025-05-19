@@ -1,9 +1,8 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { faCircleXmark, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   useCreateNewPostMutation,
-  useGetPostsQuery,
   useUpdatePostMutation,
 } from "../features/apiSlice";
 import { AddNewPostTypes } from "../types/add-post";
@@ -11,24 +10,10 @@ import { Input } from "./Forms/Input";
 import { TextArea } from "./Forms/TextArea";
 import { formData } from "../data/form";
 
-export const AddNewPost: FC<AddNewPostTypes> = ({
-  values,
-  setValues,
-  initialFormValues,
-  viewPostId,
-  setViewPostId,
-  isEditing,
-  setIsEditing,
-  setIsTogglePosts,
-  updateFetchedPosts,
-}) => {
+export const AddNewPost: FC<AddNewPostTypes> = ({}) => {
   const { title, image, content } = values;
-  const { data: fetchedPosts = [] } = useGetPostsQuery();
   const [createNewPost] = useCreateNewPostMutation();
   const [updatePost] = useUpdatePostMutation();
-  const { refetch } = useGetPostsQuery();
-
-  const [postUpdate, setPostUpdate] = useState(fetchedPosts);
 
   const handleChange = (
     e:
@@ -48,37 +33,6 @@ export const AddNewPost: FC<AddNewPostTypes> = ({
     setIsTogglePosts(false);
     setViewPostId(null);
     setValues(initialFormValues);
-  };
-
-  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const updatedPost = {
-      title,
-      image,
-      content,
-    };
-
-    try {
-      if (isEditing) {
-        setIsTogglePosts(false);
-        await updatePost({ id: viewPostId, post: updatedPost }).unwrap();
-
-        // Optimistically update the posts locally
-        updateFetchedPosts({ ...updatedPost, id: viewPostId }, true);
-      } else {
-        const newPost = await createNewPost({
-          title,
-          image,
-          content,
-        }).unwrap();
-        updateFetchedPosts(newPost, false);
-
-        setIsTogglePosts(false);
-        setValues(initialFormValues);
-      }
-    } catch (error) {
-      console.log((error as Error).message);
-    }
   };
 
   return (
@@ -102,7 +56,7 @@ export const AddNewPost: FC<AddNewPostTypes> = ({
               name={item.name.toLowerCase()}
               type="text"
               placeHolder={item.name}
-              className={` "border-gray-300 
+              className={`border-gray-300 
              block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
             />
           ) : (

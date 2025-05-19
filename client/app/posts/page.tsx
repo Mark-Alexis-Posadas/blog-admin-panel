@@ -11,17 +11,14 @@ import { v4 as uuidv4 } from "uuid";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FC, useState, useEffect } from "react";
-import { AddNewPost } from "../components/AddNewPost";
-import {
-  useDeletePostMutation,
-  useGetPostsQuery,
-  useGetSinglePostQuery,
-} from "../features/apiSlice";
-import { ViewPostModal } from "../components/ViewPostModal";
+import { AddNewPost } from "@/components/AddNewPost";
+
+import { ViewPostModal } from "@/components/ViewPostModal";
 import { columns } from "../data/PostsHeader";
-import { ConfirmationDelete } from "../components/ConfirmationDelete";
-import { TableHeading } from "../components/Table/TableHeading";
-import { TableRow } from "../components/Table/TableRow";
+
+import { ConfirmationDelete } from "@/components/ConfirmationDelete";
+import { TableHeading } from "@/components/Table/TableHeading";
+import { TableRow } from "@/components/Table/TableRow";
 
 const initialFormValues = {
   title: "",
@@ -30,12 +27,7 @@ const initialFormValues = {
 };
 
 export const Posts: FC = () => {
-  const { data: posts = [], refetch } = useGetPostsQuery();
-  const [deletePost] = useDeletePostMutation();
   const [viewPostId, setViewPostId] = useState<number | null>(null);
-  const { data: post } = useGetSinglePostQuery(viewPostId || -1, {
-    skip: !viewPostId,
-  });
 
   const [values, setValues] = useState(initialFormValues);
   const [isTogglePosts, setIsTogglePosts] = useState<boolean>(false);
