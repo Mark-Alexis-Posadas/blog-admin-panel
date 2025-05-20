@@ -27,73 +27,11 @@ const initialFormValues = {
   content: "",
 };
 
-export const Posts: FC = () => {
-  const [viewPostId, setViewPostId] = useState<number | null>(null);
-
-  const [values, setValues] = useState(initialFormValues);
-  const [isTogglePosts, setIsTogglePosts] = useState<boolean>(false);
-  const [isToggleViewPost, setIsToggleViewPost] = useState<boolean>(false);
-  const [isToggleDelete, setIsToggleDelete] = useState<boolean>(false);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-
-  const [fetchedPosts, setFetchedPosts] = useState(posts);
-
-  useEffect(() => {
-    setFetchedPosts(posts);
-  }, [posts]);
-
-  const handleViewPost = (id: number) => {
-    setViewPostId(id);
-    setIsToggleViewPost(true);
-  };
-
-  const handleToggleDeletePost = (id: number) => {
-    setViewPostId(id);
-    setIsToggleDelete(true);
-  };
-
-  const handleProceedDeletePost = async () => {
-    if (viewPostId) {
-      await deletePost(viewPostId.toString());
-      refetch();
-      setIsToggleDelete(false);
-    }
-  };
-
-  const handleToggleUpdatePost = (id: number) => {
-    const postToEdit = posts.find((post) => post.id === id);
-    if (postToEdit) {
-      setViewPostId(id);
-      setIsTogglePosts(true);
-      setIsEditing(true);
-      setValues({
-        title: postToEdit.title,
-        image: postToEdit.image,
-        content: postToEdit.content,
-      });
-    }
-  };
-
-  const updateFetchedPosts = (newPost: any, isEditing: boolean) => {
-    if (isEditing) {
-      // Update the existing post
-      const updatedPosts = fetchedPosts.map((post) =>
-        post.id === newPost.id ? { ...post, ...newPost } : post
-      );
-      setFetchedPosts(updatedPosts);
-    } else {
-      // Add the new post to the list
-      setFetchedPosts((prevPosts) => [...prevPosts, newPost]);
-    }
-  };
-
+const Posts: FC = () => {
   return (
     <section>
       <div className="flex items-center justify-between shadow-custom-shadow rounded p-4 w-[700px] m-auto">
-        <button
-          className="text-white rounded p-2 bg-indigo-600 flex items-center gap-2"
-          onClick={() => setIsTogglePosts(!isTogglePosts)}
-        >
+        <button className="text-white rounded p-2 bg-indigo-600 flex items-center gap-2">
           <FontAwesomeIcon icon={faPlus} />
           New post
         </button>
@@ -119,20 +57,12 @@ export const Posts: FC = () => {
             </tr>
           </thead>
           <tbody>
-            {fetchedPosts?.map((item) => (
-              <TableRow
-                key={uuidv4()}
-                item={item}
-                handleViewPost={handleViewPost}
-                handleToggleDeletePost={handleToggleDeletePost}
-                handleToggleUpdatePost={handleToggleUpdatePost}
-              />
-            ))}
+            <h1>hello</h1>
           </tbody>
         </table>
       </div>
 
-      {isTogglePosts && (
+      {/* {isTogglePosts && (
         <AddNewPost
           values={values}
           setValues={setValues}
@@ -157,7 +87,9 @@ export const Posts: FC = () => {
           setIsToggleDelete={setIsToggleDelete}
           handleProceedDeletePost={handleProceedDeletePost}
         />
-      )}
+      )} */}
     </section>
   );
 };
+
+export default Posts;
